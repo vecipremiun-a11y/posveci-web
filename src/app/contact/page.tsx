@@ -11,6 +11,41 @@ export default function ContactPage() {
         phone: "",
         message: ""
     });
+    const [isLoading, setIsLoading] = useState(false);
+    const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+    const [errorMessage, setErrorMessage] = useState("");
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsLoading(true);
+        setStatus("idle");
+        setErrorMessage("");
+
+        try {
+            const response = await fetch("/api/contact", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                setStatus("success");
+                setFormData({ name: "", email: "", phone: "", message: "" });
+            } else {
+                setStatus("error");
+                setErrorMessage(data.error || "Hubo un error al enviar el mensaje.");
+            }
+        } catch (error) {
+            setStatus("error");
+            setErrorMessage("Error de conexión. Inténtalo de nuevo.");
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     return (
         <main className="min-h-screen bg-[#02040a] relative overflow-hidden flex items-center justify-center pt-32 pb-20">
@@ -44,74 +79,109 @@ export default function ContactPage() {
                         {/* Glow effect on hover */}
                         <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500/20 to-blue-600/20 rounded-3xl blur opacity-0 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 pointer-events-none" />
 
-                        <form onSubmit={(e) => e.preventDefault()} className="space-y-6 relative z-10">
-                            {/* Name */}
-                            <div className="space-y-2">
-                                <label className="text-sm text-slate-400 ml-1">Nombre</label>
-                                <div className="relative">
-                                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                        <User className="h-5 w-5 text-slate-500" />
+                        {status === "success" ? (
+                            <div className="h-full flex flex-col items-center justify-center text-center py-10 animate-in fade-in slide-in-from-bottom-5 duration-500">
+                                <div className="w-20 h-20 bg-green-500/10 rounded-full flex items-center justify-center mb-6 border border-green-500/20">
+                                    <Send className="h-10 w-10 text-green-400" />
+                                </div>
+                                <h3 className="text-2xl font-bold text-white mb-2">¡Mensaje Enviado!</h3>
+                                <p className="text-slate-400 max-w-xs">
+                                    Gracias por contactarnos. Te responderemos lo antes posible.
+                                </p>
+                                <Button
+                                    className="mt-8"
+                                    onClick={() => setStatus("idle")}
+                                    variant="secondary"
+                                >
+                                    Enviar otro mensaje
+                                </Button>
+                            </div>
+                        ) : (
+                            <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
+                                {/* Name */}
+                                <div className="space-y-2">
+                                    <label className="text-sm text-slate-400 ml-1">Nombre</label>
+                                    <div className="relative">
+                                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                            <User className="h-5 w-5 text-slate-500" />
+                                        </div>
+                                        <input
+                                            type="text"
+                                            className="w-full bg-[#050b14] border border-white/10 rounded-xl py-3 pl-11 pr-4 text-white placeholder:text-slate-600 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all"
+                                            placeholder="Tu nombre completo"
+                                            value={formData.name}
+                                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                            required
+                                        />
                                     </div>
-                                    <input
-                                        type="text"
-                                        className="w-full bg-[#050b14] border border-white/10 rounded-xl py-3 pl-11 pr-4 text-white placeholder:text-slate-600 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all"
-                                        placeholder="Tu nombre completo"
-                                        value={formData.name}
-                                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                </div>
+
+                                {/* Email */}
+                                <div className="space-y-2">
+                                    <label className="text-sm text-slate-400 ml-1">Email</label>
+                                    <div className="relative">
+                                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                            <Mail className="h-5 w-5 text-slate-500" />
+                                        </div>
+                                        <input
+                                            type="email"
+                                            className="w-full bg-[#050b14] border border-white/10 rounded-xl py-3 pl-11 pr-4 text-white placeholder:text-slate-600 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all"
+                                            placeholder="tu@correo.com"
+                                            value={formData.email}
+                                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                            required
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* Phone */}
+                                <div className="space-y-2">
+                                    <label className="text-sm text-slate-400 ml-1">Teléfono (opcional)</label>
+                                    <div className="relative">
+                                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                            <Phone className="h-5 w-5 text-slate-500" />
+                                        </div>
+                                        <input
+                                            type="tel"
+                                            className="w-full bg-[#050b14] border border-white/10 rounded-xl py-3 pl-11 pr-4 text-white placeholder:text-slate-600 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all"
+                                            placeholder="+56 9 1234 5678"
+                                            value={formData.phone}
+                                            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* Message */}
+                                <div className="space-y-2">
+                                    <label className="text-sm text-slate-400 ml-1">Mensaje</label>
+                                    <textarea
+                                        className="w-full bg-[#050b14] border border-white/10 rounded-xl py-3 px-4 text-white placeholder:text-slate-600 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all min-h-[120px] resize-none"
+                                        placeholder="¿En qué podemos ayudarte?"
+                                        value={formData.message}
+                                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                                        required
                                     />
                                 </div>
-                            </div>
 
-                            {/* Email */}
-                            <div className="space-y-2">
-                                <label className="text-sm text-slate-400 ml-1">Email</label>
-                                <div className="relative">
-                                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                        <Mail className="h-5 w-5 text-slate-500" />
-                                    </div>
-                                    <input
-                                        type="email"
-                                        className="w-full bg-[#050b14] border border-white/10 rounded-xl py-3 pl-11 pr-4 text-white placeholder:text-slate-600 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all"
-                                        placeholder="tu@correo.com"
-                                        value={formData.email}
-                                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                    />
-                                </div>
-                            </div>
+                                <Button
+                                    className="w-full py-6 text-lg font-bold shadow-lg shadow-cyan-500/20 group-hover:shadow-cyan-500/40 transition-shadow disabled:opacity-50 disabled:cursor-not-allowed"
+                                    disabled={isLoading}
+                                >
+                                    {isLoading ? "Enviando..." : (
+                                        <>
+                                            Enviar Mensaje
+                                            <Send className="ml-2 h-4 w-4" />
+                                        </>
+                                    )}
+                                </Button>
 
-                            {/* Phone */}
-                            <div className="space-y-2">
-                                <label className="text-sm text-slate-400 ml-1">Teléfono (opcional)</label>
-                                <div className="relative">
-                                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                        <Phone className="h-5 w-5 text-slate-500" />
-                                    </div>
-                                    <input
-                                        type="tel"
-                                        className="w-full bg-[#050b14] border border-white/10 rounded-xl py-3 pl-11 pr-4 text-white placeholder:text-slate-600 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all"
-                                        placeholder="+56 9 1234 5678"
-                                        value={formData.phone}
-                                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                                    />
-                                </div>
-                            </div>
-
-                            {/* Message */}
-                            <div className="space-y-2">
-                                <label className="text-sm text-slate-400 ml-1">Mensaje</label>
-                                <textarea
-                                    className="w-full bg-[#050b14] border border-white/10 rounded-xl py-3 px-4 text-white placeholder:text-slate-600 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all min-h-[120px] resize-none"
-                                    placeholder="¿En qué podemos ayudarte?"
-                                    value={formData.message}
-                                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                                />
-                            </div>
-
-                            <Button className="w-full py-6 text-lg font-bold shadow-lg shadow-cyan-500/20 group-hover:shadow-cyan-500/40 transition-shadow">
-                                Enviar Mensaje
-                                <Send className="ml-2 h-4 w-4" />
-                            </Button>
-                        </form>
+                                {status === "error" && (
+                                    <p className="text-red-400 text-center text-sm font-medium animate-in fade-in">
+                                        {errorMessage}
+                                    </p>
+                                )}
+                            </form>
+                        )}
                     </div>
 
                     {/* Right Column: Contact Info */}

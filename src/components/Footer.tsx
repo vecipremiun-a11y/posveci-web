@@ -172,11 +172,18 @@ export default function Footer() {
                                     </div>
 
                                     <div className="mt-auto">
-                                        <Link href="https://demo.posveci.com/login?user=user&password=user123" target="_blank">
+                                        <a
+                                            href={`https://wa.me/56950225491?text=${encodeURIComponent(
+                                                `Hola, quiero la demo de POSVECI.\nNombre:\nNegocio:\nCiudad:\nRubro:\nEmail:\nEmpresas: 1\n${isAnnual ? "Plan: Anual" : "Plan: Mensual"}\n`
+                                            )}`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            aria-label="Comenzar prueba gratis vía WhatsApp"
+                                        >
                                             <Button className="w-full py-6 text-lg shadow-lg shadow-blue-600/20 mb-3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 border-none">
                                                 Comenzar prueba gratis
                                             </Button>
-                                        </Link>
+                                        </a>
                                         <p className="text-slate-500 text-xs">
                                             Sin riesgos | Cancelá en cualquier momento
                                         </p>
