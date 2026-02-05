@@ -17,7 +17,7 @@ export async function POST(req: Request) {
         }
 
         const data = await resend.emails.send({
-            from: "PosVeci Demo <onboarding@resend.dev>",
+            from: "PosVeci Demo <no-reply@posveci.com>",
             to: ["contacto@posveci.com"],
             subject: "🆕 Nueva solicitud de Demo - " + name,
             html: `
