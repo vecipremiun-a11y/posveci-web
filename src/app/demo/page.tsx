@@ -13,10 +13,42 @@ export default function DemoPage() {
         privacy: false
     });
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+    const [errorMessage, setErrorMessage] = useState("");
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setIsSubmitted(true);
+        setIsLoading(true);
+        setStatus("idle");
+        setErrorMessage("");
+
+        try {
+            const response = await fetch("/api/contact", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                setStatus("success");
+                setIsSubmitted(true); // Show the credentials view
+                // Optionally clear form if we weren't switching views
+                // setFormData({ ...formData, name: "", email: "", phone: "", business: "" });
+            } else {
+                setStatus("error");
+                setErrorMessage(data.error || "Hubo un error al enviar la solicitud.");
+            }
+        } catch (error) {
+            setStatus("error");
+            setErrorMessage("Error de conexión. Inténtalo de nuevo.");
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -41,11 +73,17 @@ export default function DemoPage() {
 
                         {isSubmitted ? (
                             <div className="text-center animate-in fade-in zoom-in duration-300">
+                                <div className="mb-6 p-4 bg-green-500/10 border border-green-500/20 rounded-xl inline-block">
+                                    <p className="text-green-400 font-bold flex items-center gap-2">
+                                        <CheckCircle size={20} />
+                                        ¡Solicitud enviada! Te contactaremos pronto.
+                                    </p>
+                                </div>
                                 <h3 className="text-2xl font-bold text-white mb-6">
                                     ¡Gracias <span className="text-cyan-400 capitalize">{formData.name}</span>!
                                 </h3>
                                 <p className="text-slate-300 mb-8">
-                                    Aquí tienes tus credenciales para acceder a la demo:
+                                    Aquí tienes tus credenciales para acceder a la demo inmediatamente:
                                 </p>
 
                                 <div className="bg-[#0a0c14]/50 border border-white/10 rounded-2xl p-6 mb-8 text-left space-y-4">
@@ -154,9 +192,18 @@ export default function DemoPage() {
                                     </div>
 
                                     {/* Submit Button */}
-                                    <Button className="w-full py-6 mt-6 text-lg font-bold shadow-lg shadow-cyan-500/20">
-                                        Solicitar Demo Gratis
+                                    <Button
+                                        className="w-full py-6 mt-6 text-lg font-bold shadow-lg shadow-cyan-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                                        disabled={isLoading}
+                                    >
+                                        {isLoading ? "Enviando..." : "Solicitar Demo Gratis"}
                                     </Button>
+
+                                    {status === "error" && (
+                                        <p className="text-red-400 text-center text-sm mt-2 font-medium">
+                                            {errorMessage}
+                                        </p>
+                                    )}
 
                                     <p className="text-center text-xs text-slate-500 mt-4">
                                         Sin riesgos | Sin tarjeta de crédito requerida
