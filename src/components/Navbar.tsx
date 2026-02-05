@@ -19,10 +19,10 @@ const Navbar = () => {
     }, []);
 
     const navLinks = [
-        { name: "Inicio", href: "#hero" },
-        { name: "Funcionalidades", href: "#features" },
-        { name: "Opiniones", href: "#testimonials" },
-        { name: "Contacto", href: "#contact" },
+        { name: "Inicio", href: "/" },
+        { name: "Funcionalidades", href: "/#features" },
+        { name: "Opiniones", href: "/#testimonials" },
+        { name: "Contacto", href: "/contact" },
     ];
 
     return (
@@ -49,9 +49,11 @@ const Navbar = () => {
                             {link.name}
                         </Link>
                     ))}
-                    <Button variant="primary" size="sm">
-                        Solicita Demo
-                    </Button>
+                    <Link href="https://app.posveci.com/login">
+                        <Button variant="primary" size="sm">
+                            Iniciar Sesión
+                        </Button>
+                    </Link>
                 </div>
 
                 {/* Mobile Menu Button */}
@@ -76,9 +78,11 @@ const Navbar = () => {
                             {link.name}
                         </Link>
                     ))}
-                    <Button variant="primary" className="w-full">
-                        Solicita Demo
-                    </Button>
+                    <Link href="https://app.posveci.com/login" className="w-full">
+                        <Button variant="primary" className="w-full">
+                            Iniciar Sesión
+                        </Button>
+                    </Link>
                 </div>
             )}
         </nav>

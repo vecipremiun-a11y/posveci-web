@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Button from "@/components/ui/Button";
 import { ArrowRight, Store, ShoppingBag, Receipt } from "lucide-react";
 import Image from "next/image";
@@ -25,13 +26,17 @@ export default function Hero() {
                             Controla ventas, inventario, caja y mucho más, de manera rápida y eficiente.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                            <Button size="lg" className="group">
-                                Solicita Demo Gratis
-                                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                            </Button>
-                            <Button variant="secondary" size="lg">
-                                Contáctanos
-                            </Button>
+                            <Link href="/demo">
+                                <Button size="lg" className="group">
+                                    Solicita Demo Gratis
+                                    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                                </Button>
+                            </Link>
+                            <Link href="/contact">
+                                <Button variant="secondary" size="lg">
+                                    Contáctanos
+                                </Button>
+                            </Link>
                         </div>
 
                         {/* Trust badges */}
