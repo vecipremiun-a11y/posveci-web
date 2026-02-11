@@ -173,12 +173,8 @@ export default function Footer() {
 
                                     <div className="mt-auto">
                                         <a
-                                            href={`https://wa.me/56950225491?text=${encodeURIComponent(
-                                                `Hola, quiero la demo de POSVECI.\nNombre:\nNegocio:\nCiudad:\nRubro:\nEmail:\nEmpresas: 1\n${isAnnual ? "Plan: Anual" : "Plan: Mensual"}\n`
-                                            )}`}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            aria-label="Comenzar prueba gratis vía WhatsApp"
+                                            href="https://app.posveci.com/registro"
+                                            className="block w-full"
                                         >
                                             <Button className="w-full py-6 text-lg shadow-lg shadow-blue-600/20 mb-3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 border-none">
                                                 Comenzar prueba gratis
@@ -193,7 +189,8 @@ export default function Footer() {
                         </div>
                     </div>
                 </>
-            )}
+            )
+            }
 
             {/* Main Footer */}
             <div className="container mx-auto px-4 md:px-6">
@@ -221,6 +218,6 @@ export default function Footer() {
                     <p>info@posveci.com</p>
                 </div>
             </div>
-        </footer>
+        </footer >
     );
 }
