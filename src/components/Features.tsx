@@ -16,7 +16,7 @@ const features = [
         title: "Punto de Venta Rápido y Sencillo",
         description: "Vende más rápido con una interfaz intuitiva y fácil de usar. Mantén las ofertas visibles, atiende múltiples clientes a la vez y gestiona tu caja en tiempo real.",
         icon: ShoppingCart,
-        image: "/images/pos.png",
+        image: "/images/pos de posveci.png",
         details: [
             "Ventas rápidas y sencillas",
             "Ofertas siempre visibles",
@@ -58,7 +58,7 @@ const features = [
         title: "Reportes Detallados y Pedidos Inteligentes",
         description: "Panel de control con ventas diarias/mensuales, productos más vendidos y alertas de stock. Recibe recomendaciones de pedidos inteligentes por proveedor.",
         icon: BarChart3,
-        image: "/images/dashboard.png",
+        image: "/images/panel de vecipos.png",
         details: [
             "Reportes de ventas y caja",
             "Productos más vendidos y sin stock",
