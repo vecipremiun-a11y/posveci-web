@@ -1,6 +1,5 @@
 import Link from "next/link";
-import Button from "@/components/ui/Button";
-import { ArrowRight, Store, ShoppingBag, Receipt } from "lucide-react";
+import { ArrowRight, Store, ShoppingBag, Receipt, Headset } from "lucide-react";
 import Image from "next/image";
 
 export default function Hero() {
@@ -26,16 +25,34 @@ export default function Hero() {
                             Controla ventas, inventario, caja y mucho más, de manera rápida y eficiente.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                            <Link href="/demo">
-                                <Button size="lg" className="group">
-                                    Solicita Demo Gratis
-                                    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                                </Button>
+                            {/* CTA Principal: Prueba gratis 30 días */}
+                            <Link href="https://app.posveci.com/registro" className="group">
+                                <div className="relative flex items-center gap-4 rounded-2xl border border-cyan-400/60 bg-gradient-to-r from-blue-950/90 via-blue-900/70 to-cyan-950/70 px-5 py-4 shadow-[0_0_30px_rgba(34,211,238,0.35),inset_0_1px_0_rgba(255,255,255,0.15)] transition-all duration-300 hover:border-cyan-300 hover:shadow-[0_0_45px_rgba(34,211,238,0.6),inset_0_1px_0_rgba(255,255,255,0.2)]">
+                                    <div className="flex h-14 w-14 shrink-0 flex-col items-center justify-center rounded-xl border border-blue-400/60 bg-gradient-to-b from-blue-500/40 to-blue-800/50 shadow-[0_0_15px_rgba(59,130,246,0.6)]">
+                                        <span className="text-xl font-extrabold leading-none text-white">30</span>
+                                        <span className="text-[9px] font-bold tracking-widest text-cyan-300">DÍAS</span>
+                                    </div>
+                                    <div className="text-left">
+                                        <div className="text-base font-extrabold tracking-wide text-white">PRUEBA GRATIS POR 30 DÍAS</div>
+                                        <div className="text-xs text-slate-300">Sin tarjeta de crédito · Cancela cuando quieras</div>
+                                    </div>
+                                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-cyan-400 text-slate-950 shadow-[0_0_18px_rgba(34,211,238,0.9)] transition-transform duration-300 group-hover:translate-x-1">
+                                        <ArrowRight className="h-5 w-5" />
+                                    </div>
+                                </div>
                             </Link>
-                            <Link href="/contact">
-                                <Button variant="secondary" size="lg">
-                                    Contáctanos
-                                </Button>
+
+                            {/* CTA Secundario: Solicita una Demo */}
+                            <Link href="/contact" className="group">
+                                <div className="flex h-full items-center gap-4 rounded-2xl border border-white/10 bg-white/5 px-5 py-4 transition-all duration-300 hover:border-cyan-400/40 hover:bg-white/10">
+                                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-200 transition-colors group-hover:text-cyan-400">
+                                        <Headset className="h-5 w-5" />
+                                    </div>
+                                    <div className="text-left">
+                                        <div className="text-base font-semibold text-white">Solicita una Demo</div>
+                                        <div className="text-xs text-slate-400">Te asesoramos</div>
+                                    </div>
+                                </div>
                             </Link>
                         </div>
 

@@ -1,14 +1,16 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Button from "@/components/ui/Button";
-import { Mail, Instagram, Facebook, Twitter, CheckCircle, Check, MessageSquare, Building2, Users, Camera, Shield, Globe, CreditCard, Scale, Clock, ShoppingCart, Package, FileText, Smartphone } from "lucide-react";
+import { Mail, Instagram, Facebook, Twitter, CheckCircle, Check, MessageSquare, Building2, Globe, CreditCard, Scale, Clock, ShoppingCart, Package, FileText, Smartphone, Star, Zap, BarChart3, ArrowRight, Lock, ShieldCheck } from "lucide-react";
 
 export default function Footer() {
     const pathname = usePathname();
     const shouldHidePromo = pathname === "/demo" || pathname === "/contact";
+    const [billing, setBilling] = useState<"mensual" | "anual">("mensual");
 
     return (
         <footer className="relative pt-20 pb-10 bg-[#02040a] border-t border-white/5 overflow-hidden">
@@ -23,35 +25,71 @@ export default function Footer() {
                             <div className="flex flex-col lg:flex-row items-center gap-12">
                                 {/* Left Content */}
                                 <div className="flex-1 text-left">
-                                    <h2 className="text-4xl md:text-5xl font-bold mb-4">
-                                        ¡Prueba la <span className="text-cyan-400">Demo Gratis</span>!
+                                    {/* Badge superior */}
+                                    <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-white/5 px-4 py-2 mb-6">
+                                        <Star className="h-4 w-4 text-cyan-400" />
+                                        <span className="text-xs font-bold tracking-wider text-white">
+                                            <span className="text-cyan-400">ACCESO</span> COMPLETO · <span className="text-cyan-400">SIN TARJETA</span> · SIN COMPROMISO
+                                        </span>
+                                    </div>
+
+                                    <h2 className="text-4xl md:text-5xl font-bold leading-tight mb-4">
+                                        ¡Prueba la Demo <br className="hidden md:block" />
+                                        <span className="text-gradient">Gratis por 30 Días!</span>
                                     </h2>
                                     <p className="text-slate-300 text-lg mb-8">
-                                        Descubre la <strong className="text-white">rapidez</strong> y <strong className="text-white">potencia</strong> del sistema <strong className="text-cyan-400">POS</strong> más eficiente.
+                                        Descubre la <strong className="text-white">rapidez</strong> y <strong className="text-white">potencia</strong> del sistema <strong className="text-cyan-400">POS</strong> más eficiente y lleva tu negocio al siguiente nivel.
                                     </p>
 
-                                    <ul className="space-y-4 mb-8">
+                                    <ul className="space-y-5 mb-10">
                                         {[
-                                            "Gestiona ventas al instante",
-                                            "Controla inventario en tiempo real",
-                                            "Administra tu negocio fácilmente"
-                                        ].map((item, index) => (
-                                            <li key={index} className="flex items-center gap-3 text-slate-200">
-                                                <CheckCircle className="text-cyan-400" size={24} />
-                                                <span className="text-lg">{item}</span>
+                                            { icon: <Zap size={20} />, title: "Ventas al instante", desc: "Procesa ventas en segundos y mejora la experiencia de tus clientes." },
+                                            { icon: <Package size={20} />, title: "Inventario en tiempo real", desc: "Control total de stock, vencimientos y alertas inteligentes." },
+                                            { icon: <BarChart3 size={20} />, title: "Gestión fácil y completa", desc: "Reportes, caja, clientes y más... todo desde una sola plataforma." },
+                                        ].map((item) => (
+                                            <li key={item.title} className="flex items-start gap-4">
+                                                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-blue-500/30 bg-blue-900/40 text-cyan-400 shadow-[0_0_12px_rgba(59,130,246,0.25)]">
+                                                    {item.icon}
+                                                </div>
+                                                <div>
+                                                    <p className="text-white font-semibold">{item.title}</p>
+                                                    <p className="text-slate-400 text-sm">{item.desc}</p>
+                                                </div>
                                             </li>
                                         ))}
                                     </ul>
 
-                                    <div className="flex flex-col items-start gap-3">
-                                        <Link href="/demo">
-                                            <Button size="lg" className="w-full sm:w-auto text-lg px-8 py-6 shadow-lg shadow-cyan-500/25">
-                                                Iniciar Demo Gratis
-                                            </Button>
-                                        </Link>
-                                        <p className="text-slate-500 text-sm pl-2">
-                                            Sin registros ni compromisos
-                                        </p>
+                                    {/* CTA Principal */}
+                                    <Link href="/demo" className="group block w-full sm:w-auto sm:max-w-md">
+                                        <div className="relative flex items-center gap-4 rounded-2xl bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-400 px-5 py-4 shadow-[0_0_35px_rgba(34,211,238,0.4),inset_0_1px_0_rgba(255,255,255,0.3)] transition-all duration-300 hover:shadow-[0_0_50px_rgba(34,211,238,0.65),inset_0_1px_0_rgba(255,255,255,0.35)]">
+                                            <div className="flex h-14 w-14 shrink-0 flex-col items-center justify-center rounded-xl border border-white/40 bg-white/15 p-2 backdrop-blur-sm">
+                                                <span className="text-lg font-extrabold leading-none text-white">30</span>
+                                                <span className="text-[8px] font-bold tracking-widest text-white/90">DÍAS</span>
+                                            </div>
+                                            <div className="flex-1 text-left">
+                                                <div className="text-lg font-extrabold text-white">Iniciar Demo Gratis</div>
+                                                <div className="text-xs text-white/80">Comienza ahora tu prueba sin compromiso</div>
+                                            </div>
+                                            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-sm transition-transform duration-300 group-hover:translate-x-1">
+                                                <ArrowRight className="h-5 w-5" />
+                                            </div>
+                                        </div>
+                                    </Link>
+
+                                    {/* Trust row */}
+                                    <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
+                                        <div className="flex items-center gap-2 text-slate-400 text-sm">
+                                            <ShieldCheck size={16} className="text-cyan-400" />
+                                            <span>Sin tarjeta de crédito</span>
+                                        </div>
+                                        <div className="flex items-center gap-2 text-slate-400 text-sm">
+                                            <Lock size={16} className="text-cyan-400" />
+                                            <span>Acceso completo</span>
+                                        </div>
+                                        <div className="flex items-center gap-2 text-slate-400 text-sm">
+                                            <CheckCircle size={16} className="text-cyan-400" />
+                                            <span>Cancela cuando quieras</span>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -75,7 +113,7 @@ export default function Footer() {
                     <div className="container mx-auto px-4 md:px-6 mb-20">
                         <div className="text-center mb-12">
                             <h2 className="text-3xl md:text-5xl font-bold mb-4 text-white">
-                                Prueba 15 días gratis
+                                Prueba 30 días gratis
                             </h2>
                             <p className="text-slate-300 text-lg md:text-xl">
                                 Control total de tu negocio en un solo sistema
@@ -94,21 +132,42 @@ export default function Footer() {
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
-                            {/* PLAN NORMAL */}
+                        {/* Toggle Mensual / Anual */}
+                        <div className="flex justify-center mb-10">
+                            <div className="inline-flex items-center gap-1 p-1 rounded-full bg-white/5 border border-white/10">
+                                <button
+                                    onClick={() => setBilling("mensual")}
+                                    className={`px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${billing === "mensual" ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-600/30" : "text-slate-400 hover:text-white"}`}
+                                >
+                                    Mensual
+                                </button>
+                                <button
+                                    onClick={() => setBilling("anual")}
+                                    className={`flex items-center gap-2 px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${billing === "anual" ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-600/30" : "text-slate-400 hover:text-white"}`}
+                                >
+                                    Anual
+                                    <span className="px-2 py-0.5 rounded-full bg-green-500/20 text-green-400 text-[10px] font-bold border border-green-500/30">
+                                        2 meses gratis
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto items-start">
+                            {/* PLAN STANDARD */}
                             <div className="relative group">
                                 <div className="absolute inset-0 bg-blue-600/10 rounded-3xl blur-xl group-hover:bg-blue-600/20 transition-all duration-500" />
                                 <div className="glass rounded-3xl p-1 border border-blue-500/30 relative overflow-hidden h-full">
                                     <div className="bg-[#02040a]/80 backdrop-blur-xl rounded-[20px] p-8 md:p-10 h-full flex flex-col">
                                         <div className="text-center mb-6">
                                             <span className="inline-block px-5 py-1.5 rounded-full bg-blue-900/50 text-blue-300 text-xs font-bold tracking-wider mb-4 border border-blue-500/30">
-                                                PLAN NORMAL
+                                                PLAN STANDARD
                                             </span>
                                             <div className="flex items-end justify-center gap-1 mb-1">
                                                 <span className="text-slate-400 text-lg mb-1">CLP</span>
-                                                <span className="text-4xl md:text-5xl font-bold text-white tracking-tight">$30.000</span>
+                                                <span className="text-4xl md:text-5xl font-bold text-white tracking-tight">{billing === "mensual" ? "$15.000" : "$140.000"}</span>
                                             </div>
-                                            <p className="text-slate-400 text-sm">por empresa / mes</p>
+                                            <p className="text-slate-400 text-sm">{billing === "mensual" ? "por sucursal / mes" : "por sucursal / año"}</p>
                                         </div>
 
                                         <p className="text-center text-xs font-bold tracking-widest text-slate-300 mb-6 uppercase">
@@ -117,26 +176,22 @@ export default function Footer() {
 
                                         <div className="w-full h-px bg-gradient-to-r from-transparent via-blue-500/30 to-transparent mb-6" />
 
-                                        <ul className="space-y-3 mb-8 text-left flex-1">
+                                        <ul className="space-y-5 mb-8 text-left flex-1">
                                             {[
-                                                "Ventas ilimitadas (POS rápido)",
-                                                "Productos ilimitados",
-                                                "Usuarios ilimitados",
-                                                "Inventario en tiempo real",
-                                                "Costos y márgenes de utilidad",
-                                                "Reportes completos (ventas, utilidad, pagos)",
-                                                "Control de caja (apertura y cierre)",
-                                                "Gestión de clientes y crédito (fiado)",
-                                                "Historial completo + exportar a Excel",
-                                                "Control de vencimientos (FEFO)",
-                                                "Alertas de stock bajo y sin stock",
-                                                "Multiempresa (varias sucursales)",
-                                                "Boleta y factura electrónica (SII integrado)",
-                                                "Acceso desde PC, tablet o celular",
+                                                { title: "Punto de venta, clientes e historial", desc: "POS rápido, ficha de clientes y todo tu historial de ventas siempre disponible." },
+                                                { title: "Inventario completo", desc: "Productos, categorías, proveedores, compras y facturas gestionados en un solo lugar." },
+                                                { title: "Facturación electrónica SII", desc: "Emite boletas y facturas electrónicas 100% integradas con el SII." },
+                                                { title: "Reportes de ventas y de cajas", desc: "Cuadraturas de caja y reportes claros para tomar mejores decisiones." },
+                                                { title: "Todo ilimitado", desc: "Usuarios, productos, clientes y ventas sin límites, desde el primer día." },
                                             ].map((feature) => (
-                                                <li key={feature} className="flex items-start gap-3">
-                                                    <Check className="text-cyan-400 shrink-0 mt-0.5" size={18} />
-                                                    <span className="text-slate-200 text-sm">{feature}</span>
+                                                <li key={feature.title} className="flex items-start gap-3">
+                                                    <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-cyan-500/15 border border-cyan-500/30 mt-0.5">
+                                                        <Check className="text-cyan-400" size={14} />
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-slate-100 text-sm font-semibold leading-snug">{feature.title}</p>
+                                                        <p className="text-slate-400 text-xs mt-1 leading-relaxed">{feature.desc}</p>
+                                                    </div>
                                                 </li>
                                             ))}
                                         </ul>
@@ -153,7 +208,7 @@ export default function Footer() {
                                                 </Button>
                                             </a>
                                             <div className="flex items-center justify-center gap-2 text-xs text-slate-500">
-                                                <span>🕐 15 días gratis</span>
+                                                <span>🕐 30 días gratis</span>
                                                 <span>|</span>
                                                 <span>🔒 Sin riesgos</span>
                                                 <span>|</span>
@@ -164,119 +219,54 @@ export default function Footer() {
                                 </div>
                             </div>
 
-                            {/* PLAN PRO */}
+                            {/* PLAN PROFESIONAL */}
                             <div className="relative group">
+                                {/* Badge MÁS POPULAR */}
+                                <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20">
+                                    <span className="inline-flex items-center gap-1 px-4 py-1.5 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 text-white text-xs font-bold tracking-wider shadow-lg shadow-purple-600/40">
+                                        ★ MÁS POPULAR
+                                    </span>
+                                </div>
                                 <div className="absolute inset-0 bg-purple-600/15 rounded-3xl blur-xl group-hover:bg-purple-600/25 transition-all duration-500" />
                                 <div className="glass rounded-3xl p-1 border border-purple-500/40 relative overflow-hidden h-full">
                                     <div className="bg-[#02040a]/80 backdrop-blur-xl rounded-[20px] p-8 md:p-10 h-full flex flex-col">
                                         <div className="text-center mb-6">
                                             <span className="inline-block px-5 py-1.5 rounded-full bg-purple-900/50 text-purple-300 text-xs font-bold tracking-wider mb-4 border border-purple-500/30">
-                                                PLAN PRO
+                                                PLAN PROFESIONAL
                                             </span>
                                             <div className="flex items-end justify-center gap-1 mb-1">
                                                 <span className="text-slate-400 text-lg mb-1">CLP</span>
-                                                <span className="text-4xl md:text-5xl font-bold text-white tracking-tight">$60.000</span>
+                                                <span className="text-4xl md:text-5xl font-bold text-white tracking-tight">{billing === "mensual" ? "$30.000" : "$270.000"}</span>
                                             </div>
-                                            <p className="text-slate-400 text-sm">por empresa / mes</p>
+                                            <p className="text-slate-400 text-sm">{billing === "mensual" ? "por sucursal / mes" : "por sucursal / año"}</p>
                                         </div>
 
                                         <p className="text-center text-sm font-bold text-purple-300 mb-6">
-                                            TODO LO DEL <span className="text-white">PLAN NORMAL</span> +
+                                            TODO LO DEL <span className="text-white">PLAN STANDARD</span> +
                                         </p>
 
                                         <div className="w-full h-px bg-gradient-to-r from-transparent via-purple-500/30 to-transparent mb-6" />
 
-                                        <div className="space-y-6 mb-8 text-left flex-1">
-                                            {/* Gestión de personal */}
-                                            <div>
-                                                <div className="flex items-center gap-3 mb-2">
-                                                    <div className="w-8 h-8 rounded-lg bg-purple-900/50 border border-purple-500/30 flex items-center justify-center">
-                                                        <Users size={16} className="text-purple-400" />
+                                        <ul className="space-y-5 mb-8 text-left flex-1">
+                                            {[
+                                                { title: "Ventas offline y órdenes de compra", desc: "Sigue vendiendo aunque se caiga internet y gestiona tus órdenes de compra." },
+                                                { title: "Personal y administración financiera", desc: "Control de asistencia, nómina de sueldos y las finanzas de tu negocio." },
+                                                { title: "Sorteos, combos y perfil de producto", desc: "Herramientas avanzadas de marketing e inventario para vender más." },
+                                                { title: "Reportes avanzados", desc: "Análisis de utilidad, tendencias y control de vencimientos (FEFO)." },
+                                                { title: "Marketplace + sucursales adicionales", desc: "Amplía tu sistema con complementos y suma todas las sucursales que necesites." },
+                                                { title: "Soporte prioritario 24/7", desc: "Atención preferente a toda hora y 2 h de capacitación personalizada incluidas." },
+                                            ].map((feature) => (
+                                                <li key={feature.title} className="flex items-start gap-3">
+                                                    <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-purple-500/15 border border-purple-500/30 mt-0.5">
+                                                        <Check className="text-purple-400" size={14} />
                                                     </div>
-                                                    <span className="text-white font-semibold text-sm">Gestión de personal completa</span>
-                                                </div>
-                                                <ul className="ml-11 space-y-1">
-                                                    <li className="text-slate-400 text-xs">• Control de asistencia (entrada/salida)</li>
-                                                    <li className="text-slate-400 text-xs">• Horas trabajadas y turnos</li>
-                                                    <li className="text-slate-400 text-xs">• Pagos por asistencia y reportes</li>
-                                                </ul>
-                                            </div>
-
-                                            {/* Acceso con PIN y foto */}
-                                            <div>
-                                                <div className="flex items-center gap-3 mb-2">
-                                                    <div className="w-8 h-8 rounded-lg bg-purple-900/50 border border-purple-500/30 flex items-center justify-center">
-                                                        <Camera size={16} className="text-purple-400" />
+                                                    <div>
+                                                        <p className="text-slate-100 text-sm font-semibold leading-snug">{feature.title}</p>
+                                                        <p className="text-slate-400 text-xs mt-1 leading-relaxed">{feature.desc}</p>
                                                     </div>
-                                                    <span className="text-white font-semibold text-sm">Acceso con PIN y foto</span>
-                                                </div>
-                                                <ul className="ml-11 space-y-1">
-                                                    <li className="text-slate-400 text-xs">• Login con PIN personal</li>
-                                                    <li className="text-slate-400 text-xs">• Registro con foto del trabajador</li>
-                                                    <li className="text-slate-400 text-xs">• Historial de actividades por usuario</li>
-                                                </ul>
-                                            </div>
-
-                                            {/* Control de permisos */}
-                                            <div>
-                                                <div className="flex items-center gap-3 mb-2">
-                                                    <div className="w-8 h-8 rounded-lg bg-purple-900/50 border border-purple-500/30 flex items-center justify-center">
-                                                        <Shield size={16} className="text-purple-400" />
-                                                    </div>
-                                                    <span className="text-white font-semibold text-sm">Control de permisos avanzado</span>
-                                                </div>
-                                                <ul className="ml-11 space-y-1">
-                                                    <li className="text-slate-400 text-xs">• Roles personalizables (caja, vendedor, bodega, etc)</li>
-                                                    <li className="text-slate-400 text-xs">• Activar/desactivar accesos por módulo</li>
-                                                    <li className="text-slate-400 text-xs">• Mayor seguridad y control</li>
-                                                </ul>
-                                            </div>
-
-                                            {/* Tienda online */}
-                                            <div>
-                                                <div className="flex items-center gap-3 mb-2">
-                                                    <div className="w-8 h-8 rounded-lg bg-purple-900/50 border border-purple-500/30 flex items-center justify-center">
-                                                        <Globe size={16} className="text-purple-400" />
-                                                    </div>
-                                                    <span className="text-white font-semibold text-sm">Tienda online integrada (página web)</span>
-                                                </div>
-                                                <ul className="ml-11 space-y-1">
-                                                    <li className="text-slate-400 text-xs">• Tu página web lista para vender online</li>
-                                                    <li className="text-slate-400 text-xs">• Catálogo sincronizado con stock y precios</li>
-                                                    <li className="text-slate-400 text-xs">• Pedidos online llegan directo al POS</li>
-                                                </ul>
-                                            </div>
-
-                                            {/* Medios de Pago */}
-                                            <div>
-                                                <div className="flex items-center gap-3 mb-2">
-                                                    <div className="w-8 h-8 rounded-lg bg-purple-900/50 border border-purple-500/30 flex items-center justify-center">
-                                                        <CreditCard size={16} className="text-purple-400" />
-                                                    </div>
-                                                    <span className="text-white font-semibold text-sm">Integración con Medios de Pago</span>
-                                                    <span className="px-2 py-0.5 rounded-full bg-yellow-500/20 text-yellow-400 text-[10px] font-bold border border-yellow-500/30">Próximamente</span>
-                                                </div>
-                                                <ul className="ml-11 space-y-1">
-                                                    <li className="text-slate-400 text-xs">• Conexión con Transbank / Mercado Pago / WebPay</li>
-                                                    <li className="text-slate-400 text-xs">• Control de pagos electrónicos</li>
-                                                </ul>
-                                            </div>
-
-                                            {/* Balanzas */}
-                                            <div>
-                                                <div className="flex items-center gap-3 mb-2">
-                                                    <div className="w-8 h-8 rounded-lg bg-purple-900/50 border border-purple-500/30 flex items-center justify-center">
-                                                        <Scale size={16} className="text-purple-400" />
-                                                    </div>
-                                                    <span className="text-white font-semibold text-sm">Sincronización con balanzas</span>
-                                                </div>
-                                                <ul className="ml-11 space-y-1">
-                                                    <li className="text-slate-400 text-xs">• Conecta tu balanza electrónica al POS</li>
-                                                    <li className="text-slate-400 text-xs">• Peso y precio automático</li>
-                                                    <li className="text-slate-400 text-xs">• Ideal para carnicerías, minimarket, almacenes</li>
-                                                </ul>
-                                            </div>
-                                        </div>
+                                                </li>
+                                            ))}
+                                        </ul>
 
                                         <div className="mt-auto">
                                             <a href="https://app.posveci.com/registro" className="block w-full">
@@ -285,7 +275,7 @@ export default function Footer() {
                                                 </Button>
                                             </a>
                                             <div className="flex items-center justify-center gap-2 text-xs text-slate-500">
-                                                <span>🕐 15 días gratis</span>
+                                                <span>🕐 30 días gratis</span>
                                                 <span>|</span>
                                                 <span>🔒 Sin riesgos</span>
                                                 <span>|</span>
@@ -326,7 +316,7 @@ export default function Footer() {
                             {/* CTA WhatsApp + Prueba gratis */}
                             <div className="flex flex-col sm:flex-row items-center justify-center gap-6 p-6 rounded-2xl bg-gradient-to-r from-blue-900/30 to-purple-900/30 border border-blue-500/20">
                                 <div className="text-center sm:text-left">
-                                    <p className="text-white font-bold text-lg">Prueba 15 días <span className="text-cyan-400 text-2xl font-extrabold">GRATIS</span></p>
+                                    <p className="text-white font-bold text-lg">Prueba 30 días <span className="text-cyan-400 text-2xl font-extrabold">GRATIS</span></p>
                                     <p className="text-slate-400 text-sm">sin compromiso</p>
                                 </div>
                                 <a
