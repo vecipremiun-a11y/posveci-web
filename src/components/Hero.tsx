@@ -12,9 +12,9 @@ const perks = [
 export default function Hero() {
     return (
         <section id="hero" className="relative overflow-hidden pt-[76px]">
-            <div className="container relative z-10 mx-auto px-4 md:px-6">
-                <div className="flex flex-col justify-center pt-10 lg:h-[540px] lg:pt-0 xl:h-[600px] 2xl:h-[680px]">
-                    <div className="max-w-xl lg:max-w-[430px] xl:max-w-[520px]">
+            <div className="container mx-auto px-4 md:px-6">
+                <div className="grid items-center gap-10 py-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-0 lg:py-12">
+                    <div className="max-w-xl">
                         <span className="inline-flex items-center rounded-lg bg-mint px-3 py-1.5 text-xs font-bold tracking-wide text-leaf-dark">
                             SISTEMA POS PARA ALMACENES Y MINIMARKETS
                         </span>
@@ -49,20 +49,20 @@ export default function Hero() {
                             ))}
                         </ul>
                     </div>
-                </div>
-            </div>
 
-            {/* Imagen: debajo del texto en celular, a la derecha detrás del texto en escritorio */}
-            <div className="relative mb-10 mt-10 aspect-[5/4] w-full sm:aspect-[16/10] lg:absolute lg:mb-0 lg:right-0 lg:top-[76px] lg:mt-0 lg:aspect-[1672/941] lg:h-[540px] lg:w-auto xl:h-[600px] 2xl:h-[680px]">
-                <Image
-                    src="/images/landing/hero-asistente.webp"
-                    alt="Vendedora de minimarket usando POSVECI: stock bajo, ventas de hoy y asistente"
-                    fill
-                    priority
-                    sizes="(min-width: 1536px) 1210px, (min-width: 1280px) 1070px, (min-width: 1024px) 960px, 100vw"
-                    className="object-cover object-right"
-                />
-                <div className="absolute inset-x-0 bottom-0 hidden h-20 bg-gradient-to-t from-white to-transparent lg:block" aria-hidden="true" />
+                    {/* Imagen dentro de los márgenes de la página; su borde izquierdo ya viene difuminado a blanco */}
+                    <div className="relative aspect-[1272/941] w-full overflow-hidden rounded-r-[1.5rem] lg:rounded-r-[2rem]">
+                        <Image
+                            src="/images/landing/hero-asistente-recorte.webp"
+                            alt="Vendedora de minimarket usando POSVECI: stock bajo, ventas de hoy y asistente"
+                            fill
+                            priority
+                            sizes="(min-width: 1536px) 820px, (min-width: 1024px) 55vw, 100vw"
+                            className="object-cover"
+                        />
+                        <div className="absolute inset-y-0 left-0 w-[12%] bg-gradient-to-r from-white to-transparent" aria-hidden="true" />
+                    </div>
+                </div>
             </div>
         </section>
     );
