@@ -2,37 +2,45 @@ import { ButtonHTMLAttributes, forwardRef } from 'react';
 import { cn } from '@/lib/utils';
 import { Loader2 } from 'lucide-react';
 
+type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost';
+type ButtonSize = 'sm' | 'md' | 'lg';
+
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
-  size?: 'sm' | 'md' | 'lg';
+  variant?: ButtonVariant;
+  size?: ButtonSize;
   isLoading?: boolean;
+}
+
+const variants: Record<ButtonVariant, string> = {
+  primary: 'bg-brand text-white shadow-sm shadow-brand/20 hover:bg-brand-dark',
+  secondary: 'bg-white text-navy border border-line hover:bg-surface',
+  outline: 'bg-white border border-brand/40 text-brand hover:border-brand hover:bg-brand-soft',
+  ghost: 'text-ink hover:text-navy hover:bg-surface',
+};
+
+const sizes: Record<ButtonSize, string> = {
+  sm: 'px-4 py-2 text-sm',
+  md: 'px-5 py-2.5 text-base',
+  lg: 'px-7 py-3.5 text-base',
+};
+
+// Mismas clases que <Button>, para aplicarlas a enlaces (<Link>/<a>) sin anidar un botón dentro.
+export function buttonStyles(variant: ButtonVariant = 'primary', size: ButtonSize = 'md', className?: string) {
+  return cn(
+    'inline-flex items-center justify-center gap-2 rounded-xl font-semibold transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:opacity-50 disabled:pointer-events-none',
+    variants[variant],
+    sizes[size],
+    className
+  );
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = 'primary', size = 'md', isLoading, children, ...props }, ref) => {
-    const variants = {
-      primary: 'bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white shadow-lg shadow-cyan-500/25',
-      secondary: 'bg-slate-800 text-white hover:bg-slate-700 border border-slate-700',
-      outline: 'border border-cyan-500/50 text-cyan-400 hover:bg-cyan-950/30',
-      ghost: 'text-slate-300 hover:text-white hover:bg-white/5',
-    };
-
-    const sizes = {
-      sm: 'px-3 py-1.5 text-sm',
-      md: 'px-5 py-2.5 text-base',
-      lg: 'px-8 py-4 text-lg',
-    };
-
     return (
       <button
         ref={ref}
         disabled={isLoading || props.disabled}
-        className={cn(
-          'inline-flex items-center justify-center rounded-xl font-medium transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:pointer-events-none',
-          variants[variant],
-          sizes[size],
-          className
-        )}
+        className={buttonStyles(variant, size, className)}
         {...props}
       >
         {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
